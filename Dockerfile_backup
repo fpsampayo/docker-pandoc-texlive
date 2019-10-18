@@ -1,0 +1,36 @@
+FROM ubuntu:18.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN \
+    set -x \
+    && apt update \
+    && apt install -y \
+        build-essential \
+        ca-certificates \
+        wget \
+        curl \
+        tex-common \
+        texlive \
+        texlive-xetex \
+        texlive-base \
+        texlive-binaries \
+        texlive-fonts-extra \
+        texlive-fonts-extra-links \
+        texlive-fonts-recommended \
+        texlive-formats-extra \
+        texlive-latex-base \
+        texlive-latex-extra \
+        texlive-latex-recommended \
+        texlive-pictures \
+        texlive-plain-generic \
+    && wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb \
+    && dpkg -i pandoc-2.7.3-1-amd64.deb
+
+COPY fonts/BreeSerif-Regular.ttf /usr/share/fonts/truetype/
+COPY geomatico.latex /root/.pandoc/templates/
+COPY portada.png /
+
+VOLUME /src/
+WORKDIR /src/
+
